@@ -7,7 +7,7 @@ local default_plugins = {
     "wakatime/vim-wakatime",
     lazy = false,
     config = function()
-      vim.g.wakatime_api_key = 'waka_22e38e28-c90a-4d39-a666-1ca3a432a213'
+      vim.g.wakatime_api_key = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
     end
   },
   
