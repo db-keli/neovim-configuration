@@ -35,7 +35,8 @@ return {
         "zipPlugin",
         "tutor",
         "rplugin",
-        "syntax",
+        -- Keep `syntax` enabled: disabling it breaks `:Inspect` / highlight metadata for many buffers
+        -- while Tree-sitter still parses (`:InspectTree`). Startup cost is small.
         "synmenu",
         "optwin",
         "compiler",

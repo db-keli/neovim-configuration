@@ -5,13 +5,6 @@ return {
     opts = require "configs.conform",
   },
 
-  -- These are some examples, uncomment them if you want to see them work!
-  {
-    "neovim/nvim-lspconfig",
-    config = function()
-      require "configs.lspconfig"
-    end,
-  },
   {
     "williamboman/mason.nvim",
   },
@@ -30,7 +23,7 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      require "nvchad.configs.lspconfig"
+      require("nvchad.configs.lspconfig").defaults()
       require "configs.lspconfig"
     end,
   },
@@ -53,6 +46,11 @@ return {
         "javascript",
         "typescript",
         "tsx",
+        "svelte",
+        "html",
+        "css",
+        "scss",
+        "json",
         "go",
         "python",
         "elixir",
@@ -69,6 +67,7 @@ return {
       "javascriptreact",
       "typescript",
       "typescriptreact",
+      "svelte",
     },
     config = function()
       require("nvim-ts-autotag").setup()

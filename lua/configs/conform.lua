@@ -6,13 +6,15 @@ local opts = {
     go = { "gofumpt", "goimports_reviser", "golines" },
     -- python stuff
     python = {
-      "black",
+      "ruff_format",
+      "ruff_fix",
     },
     -- web dev stuff
-    javascript = { "prettierd" },
-    javascriptreact = { "prettierd" },
-    typescript = { "prettierd" },
-    typescriptreact = { "prettierd" },
+    javascript = { "biome" },
+    javascriptreact = { "biome" },
+    typescript = { "biome" },
+    typescriptreact = { "biome" },
+    svelte = { "prettierd" },
     css = { "prettierd" },
     html = { "prettierd", "djlint" },
     markdown = { "prettierd" },
@@ -32,6 +34,12 @@ local opts = {
 }
 
 conform.setup(opts)
+
+-- Prefer Ruff for imports: run only import-related fixes.
+-- This keeps "fix-on-save" focused and avoids surprising refactors.
+conform.formatters.ruff_fix = vim.tbl_deep_extend("force", conform.formatters.ruff_fix or {}, {
+  args = { "check", "--fix", "--select", "I", "--stdin-filename", "$FILENAME", "-" },
+})
 
 -- Automatically format on save for any buffer that supports formatting
 vim.api.nvim_create_autocmd("BufWritePre", {
