@@ -1,5 +1,22 @@
 local conform = require "conform"
 
+-- Organize imports via LSP before formatting
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function(args)
+    local clients = vim.lsp.get_clients({ bufnr = args.buf })
+    for _, client in ipairs(clients) do
+      if client.supports_method("textDocument/codeAction") then
+        vim.lsp.buf.code_action({
+          context = { only = { "source.organizeImports" } },
+          apply = true,
+        })
+        break
+      end
+    end
+  end,
+})
+
 local opts = {
   formatters_by_ft = {
     -- go stuff
@@ -14,10 +31,22 @@ local opts = {
     javascriptreact = { "biome" },
     typescript = { "biome" },
     typescriptreact = { "biome" },
+    json = { "biome" },
+    jsonc = { "biome" },
     svelte = { "prettierd" },
-    css = { "prettierd" },
-    html = { "prettierd", "djlint" },
+    css = { "biome" },
+    html = { "biome" },
     markdown = { "prettierd" },
+    yaml = { "prettierd" },
+    yml = { "prettierd" },
+    -- rust
+    rust = { "rustfmt" },
+    -- scala
+    scala = { "scalafmt" },
+    -- swift
+    swift = { "swiftformat" },
+    -- lua
+    lua = { "stylua" },
     c = { "clang-format" },
     cpp = { "clang-format" },
     -- elixir

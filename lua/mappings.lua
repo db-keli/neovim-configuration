@@ -3,6 +3,11 @@ require "nvchad.mappings"
 local map = vim.keymap.set
 
 -- General mappings
+map("n", "<leader>v", "<cmd>vs<CR>", { desc = "Vertical split" })
+map("n", "<leader>h", "<cmd>wincmd h<CR>", { desc = "Move to left window" })
+map("n", "<leader>l", "<cmd>wincmd l<CR>", { desc = "Move to right window" })
+map("n", "<leader>j", "<C-d>", { desc = "Scroll down half page" })
+map("n", "<leader>k", "<C-u>", { desc = "Scroll up half page" })
 map("n", "<C-h>", "<cmd> TmuxNavigateLeft<CR>", { desc = "TMUX window left" })
 map("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>", { desc = "TMUX window right" })
 map("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>", { desc = "TMUX window down" })
@@ -17,12 +22,17 @@ map("v", "k", "gk", { desc = "Move up by visual line" })
 vim.keymap.set("i", "<C-h>", "<C-w>", { desc = "Delete the whole word in insert mode" })
 
 -- DAP mappings
-map("n", "<leader>db", "<cmd> DapToggleBreakpoint <CR>", { desc = " DAP Add breakpoint at line" })
-map("n", "<leader>dus", function()
-  local widgets = require "dap.ui.widgets"
-  local sidebar = widgets.sidebar(widgets.scopes)
-  sidebar.open()
-end, { desc = "DAP Open debugging sidebar" })
+map("n", "<F5>", function() require("dap").continue() end, { desc = "DAP Continue / Start" })
+map("n", "<F10>", function() require("dap").step_over() end, { desc = "DAP Step over" })
+map("n", "<F11>", function() require("dap").step_into() end, { desc = "DAP Step into" })
+map("n", "<F12>", function() require("dap").step_out() end, { desc = "DAP Step out" })
+map("n", "<leader>db", function() require("dap").toggle_breakpoint() end, { desc = "DAP Toggle breakpoint" })
+map("n", "<leader>dB", function()
+  require("dap").set_breakpoint(vim.fn.input "Breakpoint condition: ")
+end, { desc = "DAP Conditional breakpoint" })
+map("n", "<leader>dr", function() require("dap").repl.toggle() end, { desc = "DAP Toggle REPL" })
+map("n", "<leader>dx", function() require("dap").terminate() end, { desc = "DAP Terminate session" })
+map("n", "<leader>du", function() require("dapui").toggle() end, { desc = "DAP Toggle UI" })
 
 -- DAP Go mappings
 map("n", "<leader>dgt", function()

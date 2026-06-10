@@ -36,4 +36,12 @@ require("gitsigns").setup {
   current_line_blame = true, -- Enable blame line by default
 }
 
-vim.opt.guifont = "JetBrains Mono:h12"
+vim.opt.guifont = "Fantasque Sans Mono:h12"
+vim.opt.linespace = 2
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "go", "gomod", "gowork", "gotmpl" },
+  callback = function()
+    pcall(vim.treesitter.start)
+  end,
+})

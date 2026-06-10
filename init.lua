@@ -36,7 +36,4 @@ vim.schedule(function()
   require "mappings"
 end)
 
-vim.cmd [[
-  highlight LineNr ctermfg=grey guifg=#aaaaaa
-  highlight CursorLineNr ctermfg=white guifg=white gui=bold cterm=bold
-]]
+

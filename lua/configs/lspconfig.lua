@@ -282,6 +282,74 @@ vim.lsp.config("emmet_language_server", {
   },
 })
 
+vim.lsp.config("marksman", {
+  filetypes = { "markdown", "md" },
+})
+
+vim.lsp.config("yamlls", {
+  filetypes = { "yaml", "yml" },
+  settings = {
+    yaml = {
+      keyOrdering = false,
+      validate = true,
+      schemaStore = {
+        enable = true,
+        url = "https://www.schemastore.org/api/json/catalog.json",
+      },
+    },
+  },
+})
+
+vim.lsp.config("ts_ls", {
+  on_attach = function(client, bufnr)
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
+    on_attach(client, bufnr)
+  end,
+  filetypes = {
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+  },
+  root_dir = function(bufnr, on_dir)
+    local fname = vim.api.nvim_buf_get_name(bufnr)
+    on_dir(
+      vim.fs.root(fname, { "tsconfig.json", "tsconfig.base.json", "jsconfig.json", "package.json", ".git" })
+        or vim.fn.getcwd()
+    )
+  end,
+  settings = {
+    typescript = {
+      inlayHints = {
+        includeInlayParameterNameHints = "literals",
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayVariableTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayEnumMemberValueHints = true,
+      },
+    },
+    javascript = {
+      inlayHints = {
+        includeInlayParameterNameHints = "literals",
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayVariableTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayEnumMemberValueHints = true,
+      },
+    },
+  },
+})
+
+vim.lsp.config("jsonls", {
+  filetypes = { "json", "jsonc" },
+  settings = {
+    json = {
+      validate = { enable = true },
+    },
+  },
+})
+
 vim.lsp.config("clangd", {
   on_attach = function(client, bufnr)
     client.server_capabilities.documentFormattingProvider = false
@@ -303,6 +371,19 @@ vim.lsp.config("elixirls", {
   },
 })
 
+vim.lsp.config("sourcekit", {
+  cmd = { "xcrun", "sourcekit-lsp" },
+  filetypes = { "swift", "objective-c", "objective-cpp" },
+  root_dir = function(bufnr, on_dir)
+    local fname = vim.api.nvim_buf_get_name(bufnr)
+    on_dir(vim.fs.root(fname, {
+      "Package.swift",
+      "buildServer.json",
+      ".git",
+    }) or vim.fn.getcwd())
+  end,
+})
+
 vim.lsp.enable({
   "cssls",
   "html",
@@ -310,15 +391,29 @@ vim.lsp.enable({
   "pyright",
   "ruff",
   "biome",
+  "ts_ls",
   "svelte",
   "tailwindcss",
+  "sourcekit",
   "emmet_language_server",
   "clangd",
   "elixirls",
+  "yamlls",
+  "marksman",
+  "jsonls",
 })
 
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
   callback = function(args)
     vim.lsp.codelens.enable(true, { bufnr = args.buf })
+  end,
+})
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client:supports_method("textDocument/inlayHint") then
+      vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+    end
   end,
 })

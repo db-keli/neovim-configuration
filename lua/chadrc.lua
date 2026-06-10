@@ -4,7 +4,7 @@
 
 local options = {
   base46 = {
-    theme = "ayu_light",
+    theme = "gruvbox",
     -- transparency = true,
     hl_override = {
       NvDashAscii = {
@@ -69,6 +69,7 @@ local options = {
       "ruff",
       "debugpy",
       -- web dev stuff
+      "typescript-language-server",
       "eslint-lsp",
       "emmet-ls",
       "emmet-language-server",
@@ -77,12 +78,21 @@ local options = {
       "tailwindcss-language-server",
       "svelte-language-server",
       "biome",
+      "json-lsp",
       -- markdown
       "marksman",
+      -- rust
+      "rust-analyzer",
+      "codelldb",
+      -- js/ts debug
+      "js-debug-adapter",
       -- C/CPP stuff
       "clangd",
       "clang-format",
-
+      -- lua
+      "stylua",
+      -- swift
+      "swiftformat",
       -- Elixir stuff
       "elixir-ls",
     },
