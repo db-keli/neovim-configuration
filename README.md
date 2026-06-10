@@ -1,6 +1,6 @@
 # Neovim Configuration
 
-A full-featured Neovim setup built on [NvChad v2.5](https://nvchad.com), configured to replace VSCode for day-to-day development across multiple languages and stacks.
+My personal nvim configuration built on top of nvchad
 
 ---
 
