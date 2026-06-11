@@ -142,7 +142,7 @@ My personal nvim configuration built on top of nvchad
 mv ~/.config/nvim ~/.config/nvim.bak
 
 # Clone this config
-git clone https://github.com/kekelidompeh/nvim ~/.config/nvim
+git clone https://github.com/db-keli/neovim-configuration ~/.config/nvim
 
 # Open Neovim — Lazy installs all plugins automatically on first launch
 nvim
