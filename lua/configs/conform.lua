@@ -6,7 +6,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   callback = function(args)
     local clients = vim.lsp.get_clients({ bufnr = args.buf })
     for _, client in ipairs(clients) do
-      if client.supports_method("textDocument/codeAction") then
+      if client:supports_method("textDocument/codeAction") then
         vim.lsp.buf.code_action({
           context = { only = { "source.organizeImports" } },
           apply = true,
@@ -41,8 +41,6 @@ local opts = {
     yml = { "prettierd" },
     -- rust
     rust = { "rustfmt" },
-    -- scala
-    scala = { "scalafmt" },
     -- swift
     swift = { "swiftformat" },
     -- lua
@@ -55,11 +53,11 @@ local opts = {
     heex = { "mix" },
   },
 
-  format_on_save = {
-    -- Enable format on save
-    timeout_ms = 500,
-    lsp_fallback = true,
-  },
+  format_on_save = function(bufnr)
+    local ft = vim.bo[bufnr].filetype
+    local timeout = ft == "scala" and 5000 or 500
+    return { timeout_ms = timeout, lsp_fallback = true }
+  end,
 }
 
 conform.setup(opts)
@@ -70,12 +68,5 @@ conform.formatters.ruff_fix = vim.tbl_deep_extend("force", conform.formatters.ru
   args = { "check", "--fix", "--select", "I", "--stdin-filename", "$FILENAME", "-" },
 })
 
--- Automatically format on save for any buffer that supports formatting
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  callback = function(args)
-    conform.format { bufnr = args.buf }
-  end,
-})
 
 return opts

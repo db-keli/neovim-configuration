@@ -3,6 +3,7 @@ require "nvchad.mappings"
 local map = vim.keymap.set
 
 -- General mappings
+map("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 map("n", "<leader>v", "<cmd>vs<CR>", { desc = "Vertical split" })
 map("n", "<leader>h", "<cmd>wincmd h<CR>", { desc = "Move to left window" })
 map("n", "<leader>l", "<cmd>wincmd l<CR>", { desc = "Move to right window" })

@@ -91,8 +91,7 @@ local options = {
       "clang-format",
       -- lua
       "stylua",
-      -- swift
-      "swiftformat",
+      -- swift: installed via Homebrew (Mason has no binary for macOS Tahoe/x86_64)
       -- Elixir stuff
       "elixir-ls",
     },
